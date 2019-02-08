@@ -1,12 +1,17 @@
 <template>
-    <main>
+    <main class="calculator">
         <div class="display">
             123
         </div>
         <div class="buttons">
-            <div class="button-row" v-for="row in buttonRows">
-                <div class="button" v-for="button in row">
-                    {{ button.text }}
+            <div class="button-row" v-for="row in buttonRows" :key="row.index">
+                <div 
+                    :style="button.style"
+                    :class="{ operator: button.type == 'operator'}"
+                    class="button" 
+                    v-for="button in row" 
+                    :key="button.text">
+                        {{ button.text }}
                 </div>
             </div>
         </div>
@@ -19,13 +24,13 @@
             buttonRows: [
                 [{
                     text: 'AC',
-                    type: 'operator'
+                    type: 'special'
                 }, {
                     text: '+/-',
-                    type: 'operator'
+                    type: 'special'
                 }, {
                     text: '%',
-                    type: 'operator'
+                    type: 'special'
                 }, {
                     text: '÷',
                     type: 'operator'
@@ -74,16 +79,67 @@
                     type: 'number'
                 }, {
                     text: '.',
-                    type: 'number'
+                    type: 'number',
+                    style: 'flex-basis: calc(100%/2)'
                 }, {
                     text: '=',
-                    type: 'operator'
+                    type: 'operator',
+                    style: 'flex-basis: calc(100%/2)'
                 }]
             ]
         })
     }
 </script>
 
-<style scoped>
-
+<style  lang='css'>
+body {
+    width: 100vw;
+    height: 100vh;
+    font-size: 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+    .calculator {
+        width: 50vw;
+        height: 70vh;
+        font-family: sans-serif;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 0.5px solid #5D5B5D;
+    }
+    .display {
+        height: 10vh;;
+        background: #5D5B5D;
+        text-align: right;
+        font-size: 1.5em;
+        color: white;
+    }
+    .buttons {
+        height: 60vh;
+        text-align: center;
+    }
+    .button-row {
+        height: 20%;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+    .button {
+        display: inline-block;
+        outline: 0.5px solid #5D5B5D;
+        width: 100%;
+        /* padding: 0.4em; */
+        background: #838183;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .operator {
+        color: white;
+        background: #FF9A00;
+    }
+    .button:active {
+        background: #CDCCCD
+    }
 </style>
