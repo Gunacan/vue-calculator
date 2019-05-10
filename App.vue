@@ -1,11 +1,12 @@
 <template>
     <main class="calculator">
         <div class="display">
-            123
+            {{display}}
         </div>
         <div class="buttons">
             <div class="button-row" v-for="row in buttonRows" :key="row.index">
                 <div 
+                    @click="buttonClick(button)"
                     :style="button.style"
                     :class="{ operator: button.type == 'operator'}"
                     class="button" 
@@ -20,7 +21,19 @@
 
 <script>
     export default {
+        methods: {
+            buttonClick(button) {
+                if(button.type == 'number') {
+                    this.display += button.text
+                } else if(button.text == 'AC') {
+                    this.display = ''
+                } else if(button.text == '+/-') {
+                    this.display *= -1
+                }
+            }
+        },
         data: () => ({
+            display: '',
             buttonRows: [
                 [{
                     text: 'AC',
