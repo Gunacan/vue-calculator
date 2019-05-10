@@ -24,16 +24,34 @@
         methods: {
             buttonClick(button) {
                 if(button.type == 'number') {
+                    if(this.previousValue === null) {
+                        this.previousValue = Number(this.display)
+                        this.display = ''
+                    }
+                    if(button.text == '.' && this.display.includes('.')) return
                     this.display += button.text
                 } else if(button.text == 'AC') {
                     this.display = ''
                 } else if(button.text == '+/-') {
                     this.display *= -1
+                } else if(button.text == '=') {
+                    this.display = this.operations[this.currentOperator](+this.previousValue, +this.display)
+                } else if(button.type == 'operator') {
+                    this.previousValue = null
+                    this.currentOperator = button.text
                 }
             }
         },
         data: () => ({
             display: '',
+            previousValue: null,
+            currentOperator: '',
+            operations: {
+                '÷' : (a,b) => a / b,
+                '×' : (a,b) => a * b,
+                '-' : (a,b) => a - b,
+                '+' : (a,b) => a + b
+            },
             buttonRows: [
                 [{
                     text: 'AC',
